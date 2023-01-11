@@ -26,6 +26,11 @@ class Sim {
     }
 }
 
+const audibleSpeech = function(phrase) {
+    const synth = window.speechSynthesis;
+    synth.speak(new SpeechSynthesisUtterance(phrase));
+};
+
 const newSim = function() {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
@@ -36,7 +41,7 @@ const newSim = function() {
     // sims.push(new Sim(firstName, lastName, gender, age));
 };
 
-const speech = function(phrase) {
+const appendSpeech = function(phrase) {
     const textBox = document.getElementById("text-box");
     let text = document.createElement("p");
     text.innerHTML = phrase;
@@ -45,17 +50,23 @@ const speech = function(phrase) {
 };
 
 document.getElementById("sayNameButton").onclick = function() {
-    console.log(sim.sayName());
-    speech(sim.sayName());
+    const phrase = sim.sayName();
+    console.log(phrase);
+    appendSpeech(phrase);
+    audibleSpeech(phrase);
 };
 
 document.getElementById("sayGenderButton").onclick = function() {
-    console.log(sim.sayGender());
-    speech(sim.sayGender());
+    const phrase = sim.sayGender();
+    console.log(phrase);
+    appendSpeech(phrase);
+    audibleSpeech(phrase);
 };
 
 document.getElementById("sayAgeButton").onclick = function() {
-    console.log(sim.sayAge());
-    speech(sim.sayAge());
+    const phrase = sim.sayAge();
+    console.log(phrase);
+    appendSpeech(phrase);
+    audibleSpeech(phrase);
 };
 
