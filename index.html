@@ -11,13 +11,22 @@
 <body>
     <h1>Create Sim</h1>
     <div>
-        <input type="text" id="firstName" />
-        <input type="text" id="lastName" />
-        <input type="text" id="gender" />
-        <input type="text" id="age" />
-        <button type="submit" id="simButton">Submit</button>
+        <label>First Name</label>
+        <input type="text" id="firstName" /><br />
+        <label>Last Name</label>
+        <input type="text" id="lastName" /><br />
+        <label>Gender</label>
+        <input type="text" id="gender" /><br />
+        <label>Age</label>
+        <input type="text" id="age" /><br />
+        <button type="submit" onclick="newSim()">Submit</button>
     </div>
     <div>
+        <button type="submit" id="sayNameButton">Say Name</button>
+        <button type="submit" id="sayGenderButton">Say Gender</button>
+        <button type="submit" id="sayAgeButton">Say Age</button>
+    </div>
+    <div id="text-box">
         
     </div>
 
