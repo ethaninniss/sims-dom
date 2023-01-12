@@ -14,7 +14,15 @@ class Sim {
         this.gender = gender;
         this.age = age;
         this.fullName = this.firstName + ' ' + this.lastName;
+        this.hunger = 100;
+        this.bladder = 100;
+        this.hygeine = 100;
+        this.fun = 100;
+        this.social = 100;
+        this.energy = 100;
+        this.money;
     }
+    // speech methods
     sayName() {
         return `My name is ${this.fullName}`;
     }
@@ -24,7 +32,16 @@ class Sim {
     sayAge() {
         return `My age is ${this.age}`;
     }
+    // action methods
+    sleep() {
+        
+    }
 }
+
+class Bed {
+    
+}
+
 
 // Says audible phrases
 const audibleSpeech = function(phrase) {
