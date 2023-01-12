@@ -4,7 +4,7 @@
 // let age = document.getElementById("age").value;
 
 // const sims = [];
-let sim;
+let mySim;
 
 // Sim Class
 class Sim {
@@ -26,21 +26,24 @@ class Sim {
     }
 }
 
+// Says audible phrases
 const audibleSpeech = function(phrase) {
     const synth = window.speechSynthesis;
     synth.speak(new SpeechSynthesisUtterance(phrase));
 };
 
+// Creates new Sim object using inputs
 const newSim = function() {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const gender = document.getElementById("gender").value;
     const age = document.getElementById("age").value;
-    sim = new Sim(firstName, lastName, gender, age);
-    console.log(sim);
+    mySim = new Sim(firstName, lastName, gender, age);
+    console.log(mySim);
     // sims.push(new Sim(firstName, lastName, gender, age));
 };
 
+// Appends Phrases on screen
 const appendSpeech = function(phrase) {
     const textBox = document.getElementById("text-box");
     let text = document.createElement("p");
@@ -49,22 +52,23 @@ const appendSpeech = function(phrase) {
     textBox.appendChild(text);
 };
 
+// Runs append and audible speech functions by passing in method invocation as argument
 document.getElementById("sayNameButton").onclick = function() {
-    const phrase = sim.sayName();
+    const phrase = mySim.sayName();
     console.log(phrase);
     appendSpeech(phrase);
     audibleSpeech(phrase);
 };
 
 document.getElementById("sayGenderButton").onclick = function() {
-    const phrase = sim.sayGender();
+    const phrase = mySim.sayGender();
     console.log(phrase);
     appendSpeech(phrase);
     audibleSpeech(phrase);
 };
 
 document.getElementById("sayAgeButton").onclick = function() {
-    const phrase = sim.sayAge();
+    const phrase = mySim.sayAge();
     console.log(phrase);
     appendSpeech(phrase);
     audibleSpeech(phrase);
