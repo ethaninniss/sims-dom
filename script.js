@@ -56,43 +56,53 @@ class Bed {
     }
 }
 
-// stat bars
+// canvas for statbar
 
 const statCanvas = document.getElementById("canvas-stat-bars");
 const context = statCanvas.getContext("2d");
 const width = statCanvas.width = 320;
-const height = statCanvas.height = 480;
+const height = statCanvas.height = 240;
 
 class StatBar {
-    constructor(x, y, w, h, maxStat, stat) {
+    constructor(x, y, w, h, maxStat) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.maxWidth = w;
         this.maxStat = maxStat;
-        this.stat = stat;
+        this.stat = maxStat;
         this.color = 'green';
     }
     show(context) {
-        context.lineWidth = 5;
+        context.lineWidth = 4;
         context.strokeStyle = "#333";
         context.fillStyle = this.color;
         context.fillRect(this.x, this.y, this.w, this.h);
         context.strokeRect(this.x, this.y, this.maxWidth, this.h);
     }
-    updateStat() {
-        this.w = (this.stat / this.maxStat) * this.maxWidth;
+    updateStat(val) {
+        if (val >= 0) {
+            this.stat = val;
+            this.w = (this.stat / this.maxStat) * this.maxWidth;
+        }
     }
 }
 
-// const hungerBar = new StatBar(20, 20, 50, 30, 1000, mySim.hunger);
+// creating stat bars
+    const maxStat = 1000;
+    const statBarWidth = 100;
+    const statBarHeight = 15;
+    const x = width / 2 - statBarWidth / 2;
+    const y = 30;
+    const hungerBar = new StatBar(x, y, statBarWidth, statBarHeight, maxStat);
+    const hygieneBar = new StatBar(x, y * 2, statBarWidth, statBarHeight, maxStat);
+    const bladderBar = new StatBar(x, y * 3, statBarWidth, statBarHeight, maxStat);
+    const energyBar = new StatBar(x, y * 4, statBarWidth, statBarHeight, maxStat);
+    const socialBar = new StatBar(x, y * 5, statBarWidth, statBarHeight, maxStat);
+    const funBar = new StatBar(x, y * 6, statBarWidth, statBarHeight, maxStat);
+    const statBars = [hungerBar, hygieneBar, bladderBar, energyBar, socialBar, funBar];
 
-// const frame = function() {
-//     requestAnimationFrame(frame);
-// };
-
-// frame();
 
 class Time {
     constructor() {
@@ -100,6 +110,8 @@ class Time {
         this.hours = 0;
         this.dayIndex = 0;
         this.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    }
+    updateTime() {
         if (this.minutes === 60) {
             this.minutes = 0;
             this.hours++;
@@ -111,10 +123,8 @@ class Time {
         if (this.dayIndex === 7) this.dayIndex = 0;
     }
     displayTime() {
-        const minutes = this.minutes.toString().length === 2 ? this.minutes.toString() : `0${this.minutes.toString()}`;
-        console.log(minutes);
-        const hours = this.hours.toString().length === 2 ? this.hours.toString() : `0${this.hours.toString()}`;
-        console.log(hours);
+        const minutes = this.minutes.toString().length === 2 ? this.minutes.toString() : '0' + this.minutes.toString();
+        const hours = this.hours.toString().length === 2 ? this.hours.toString() : '0' + this.hours.toString();
         const time = this.days[this.dayIndex] + ' ' + hours + ':' + minutes;
         document.getElementById("time").innerHTML = time;
     }
@@ -136,27 +146,11 @@ const newSim = function() {
     mySim = new Sim(firstName, lastName, gender, age);
     console.log(mySim);
     // sims.push(new Sim(firstName, lastName, gender, age));
-    
-    const maxStat = 1000;
-    const statBarWidth = 200;
-    const statBarHeight = 30;
-    const x = width / 2 - statBarWidth / 2;
-    const y = height / 2 - statBarHeight / 2;
-    const hungerBar = new StatBar(x, y, statBarWidth, statBarHeight, maxStat, mySim.hunger);
-    const hygieneBar = new StatBar(x, y * 2, statBarWidth, statBarHeight, maxStat, mySim.hygeine);
-    const bladderBar = new StatBar(x, y * 3, statBarWidth, statBarHeight, maxStat, mySim.bladder);
-    const energyBar = new StatBar(x, y * 4, statBarWidth, statBarHeight, maxStat, mySim.energy);
-    const socialBar = new StatBar(x, y * 5, statBarWidth, statBarHeight, maxStat, mySim.social);
-    const funBar = new StatBar(x, y * 6, statBarWidth, statBarHeight, maxStat, mySim.fun);
+
 
     const frame = function() {
         context.clearRect(0, 0, width, height);
-        hungerBar.show(context);
-        hygieneBar.show(context);
-        bladderBar.show(context);
-        energyBar.show(context);
-        socialBar.show(context);
-        funBar.show(context);
+        statBars.forEach(e => e.show(context));
         requestAnimationFrame(frame);
     };
 
@@ -194,14 +188,20 @@ document.getElementById("sayAgeButton").onclick = function() {
     audibleSpeech(phrase);
 };
 
-// setInterval(() => {
-//     timeDisplay.minutes++;
-//     timeDisplay.displayTime();
-//     mySim.hunger--;
-//     mySim.hygeine--;
-//     mySim.bladder--;
-//     mySim.energy--;
-//     mySim.fun--;
-//     mySim.social--;
-//     console.log(mySim);
-// }, 1000);
+setInterval(() => {
+    timeDisplay.minutes++;
+    timeDisplay.updateTime();
+    timeDisplay.displayTime();
+    mySim.hunger-=30;
+    mySim.hygeine--;
+    mySim.bladder-=100;
+    mySim.energy--;
+    mySim.fun--;
+    mySim.social--;
+    hungerBar.updateStat(mySim.hunger);
+    hygieneBar.updateStat(mySim.hygeine);
+    bladderBar.updateStat(mySim.bladder);
+    energyBar.updateStat(mySim.energy);
+    funBar.updateStat(mySim.fun);
+    socialBar.updateStat(mySim.social);
+}, 100);
