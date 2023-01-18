@@ -52,9 +52,12 @@ class Bed {
         this.price = 100;
     }
     sleep(sim) {
-        sim.this.energy += 5;
+        sim.energy += 500;
+        if (sim.energy > 1000) sim.energy = 1000;
     }
 }
+
+const bed = new Bed();
 
 // canvas for statbar
 
@@ -86,6 +89,9 @@ class StatBar {
             this.stat = val;
             this.w = (this.stat / this.maxStat) * this.maxWidth;
         }
+        if (this.w / this.maxWidth <= .2) this.color = 'red';
+        else if (this.w / this.maxWidth <= .5) this.color = 'orange';
+        else this.color = 'green';
     }
 }
 
@@ -192,9 +198,9 @@ setInterval(() => {
     timeDisplay.minutes++;
     timeDisplay.updateTime();
     timeDisplay.displayTime();
-    mySim.hunger-=30;
+    mySim.hunger--;
     mySim.hygeine--;
-    mySim.bladder-=100;
+    mySim.bladder--;
     mySim.energy--;
     mySim.fun--;
     mySim.social--;
@@ -204,4 +210,4 @@ setInterval(() => {
     energyBar.updateStat(mySim.energy);
     funBar.updateStat(mySim.fun);
     socialBar.updateStat(mySim.social);
-}, 100);
+}, 1000);
