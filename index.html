@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css" type="text/css" />
     <title>Sims</title>
 </head>
 
@@ -30,18 +31,21 @@
         <button type="submit" onclick="mySim.goToSleep(bed)">Bed</button>
     </div>
     <div>
-        <label>Money</label>
-        <label>Energy</label>
-        <label>Fun</label>
-        <label>Social</label>
-        <label>Hunger</label>
-        <label>Hygiene</label>
-        <label>Bladder</label>
+        <button data-modal-target="#phone-modal">Phone</button>
+        <div class="phone-modal" id="phone-modal">
+            <div class="phone-modal-header">
+                <div class="phone-title">Time</div>
+                <button data-close-button class="phone-close-button">&times;</button>
+            </div>
+            <div class="phone-modal-body">Buy</div>
+        </div>
+        <div id="overlay"></div>
     </div>
     <div>
         <label id="time"></label>
     </div>
     <canvas id="canvas-stat-bars"></canvas>
+    <canvas id="canvas-visual"></canvas>
     <div id="text-box">
         
     </div>

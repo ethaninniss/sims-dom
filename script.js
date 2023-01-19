@@ -3,6 +3,11 @@
 // let gender = document.getElementById("gender").value;
 // let age = document.getElementById("age").value;
 
+// const visualCanvas = document.getElementById("canvas-stat-bars");
+// const visualCtx = visualCanvas.getContext("2d");
+// const visualCtxWidth = visualCtx.width = 320;
+// const visualCtxHeight = visualCtx.height = 480;
+
 // const sims = [];
 let mySim;
 
@@ -21,6 +26,8 @@ class Sim {
         this.social = 1000;
         this.energy = 1000;
         this.money = 0;
+        this.phone = new Phone();
+        this.inventory = [];
     }
     // speech methods
     sayName() {
@@ -33,6 +40,12 @@ class Sim {
         return `My age is ${this.age}`;
     }
     // action methods
+    openPhone() {
+        
+    }
+    buyItems(item) {
+        this.phone.buyItem(this, item);
+    }
     goToSleep(bed) {
         bed.sleep(this);
     }
@@ -40,10 +53,10 @@ class Sim {
 
 class Phone {
     constructor() {
-
+        this.color = 'black';
     }
-    buyItem() {
-
+    buyItem(sim, item) {
+        sim.inventory.push();
     }
 }
 
@@ -133,6 +146,7 @@ class Time {
         const hours = this.hours.toString().length === 2 ? this.hours.toString() : '0' + this.hours.toString();
         const time = this.days[this.dayIndex] + ' ' + hours + ':' + minutes;
         document.getElementById("time").innerHTML = time;
+        // document.getElementById("phone-title").innerHTML = time;
     }
 }
 const timeDisplay = new Time();
@@ -211,3 +225,46 @@ setInterval(() => {
     funBar.updateStat(mySim.fun);
     socialBar.updateStat(mySim.social);
 }, 1000);
+
+
+const openPhoneModalButtons = document.querySelectorAll("[data-modal-target]");
+const closePhoneModalButtons = document.querySelectorAll("[data-close-button]");
+const phoneOverlay = document.getElementById("overlay");
+
+openPhoneModalButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = document.querySelector(button.dataset.modalTarget);
+        openModal(modal);
+    });
+});
+
+phoneOverlay.addEventListener('click', () => {
+    const modals = document.querySelectorAll(".modal.active");
+    modals.forEach(modal => {
+        closeModal(modal);
+    });
+});
+
+closePhoneModalButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const modal = button.closest(".modal");
+        closeModal(modal);
+    });
+});
+
+function openModal(modal) {
+    console.log(modal)
+    if (modal == null) return;
+    console.log('1234')
+    modal.classList.add('active');
+    phoneOverlay.classList.add('active');
+    console.log(modal)
+}
+
+function closeModal(modal) {
+    console.log(modal)
+    if (modal == null) return;
+    console.log('1234')
+    modal.classList.remove('active');
+    phoneOverlay.classList.remove('active');
+}
